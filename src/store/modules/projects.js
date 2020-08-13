@@ -1,42 +1,20 @@
+import db from "../firebase/";
+
+db.collection("projects").onSnapshot(function(docs) {
+  const changes = docs.docChanges();
+
+  changes.forEach((change) => {
+    if (change.type === "added") {
+      state.projects.push({
+        ...change.doc.data(),
+        id: change.doc.id,
+      });
+    }
+  });
+});
+
 const state = {
-  projects: [
-    {
-      id: 1,
-      title: "Build something in Vue",
-      person: "theLivin",
-      due: "12th Aug 2020",
-      status: "ongoing",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!",
-    },
-    {
-      id: 2,
-      title: "Testing with Jest",
-      person: "theNamskov",
-      due: "9th Aug 2020",
-      status: "complete",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!",
-    },
-    {
-      id: 3,
-      title: "Learn Vue",
-      person: "Zizi",
-      due: "10th Aug 2020",
-      status: "overdue",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!",
-    },
-    {
-      id: 4,
-      title: "Learn Node",
-      person: "Tomsin",
-      due: "9th Aug 2020",
-      status: "complete",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!",
-    },
-  ],
+  projects: [],
 };
 
 const getters = {
@@ -52,8 +30,14 @@ const actions = {
 };
 const mutations = {
   addToProjects(state, project) {
-    let projects = state.projects;
-    projects.push(project);
+    db.collection("projects")
+      .add(project)
+      .then(function() {
+        console.log("New project added successfully...");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   },
 };
 

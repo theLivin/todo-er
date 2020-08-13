@@ -2,21 +2,11 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          small
-          outlined
-          color="white lighten-2"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          >Add New Project</v-btn
-        >
+        <v-btn small outlined color="white lighten-2" dark v-bind="attrs" v-on="on">Add New Project</v-btn>
       </template>
 
       <v-card>
-        <v-card-title class="grey darken-2 white--text"
-          >Add New Project</v-card-title
-        >
+        <v-card-title class="grey darken-2 white--text">Add New Project</v-card-title>
 
         <v-card-text>
           <v-form class="ma-3" ref="form">
@@ -25,6 +15,7 @@
               v-model="title"
               label="Title"
               :rules="inputRules"
+              autocomplete="off"
             ></v-text-field>
             <v-textarea
               prepend-icon="mdi-lead-pencil"
@@ -33,6 +24,7 @@
               auto-grow
               label="Description"
               :rules="inputRules"
+              autocomplete="off"
             ></v-textarea>
 
             <!-- Date picker -->
@@ -45,6 +37,7 @@
                   v-on="on"
                   :value="dueDate"
                   :rules="[(v) => v.length > 3 || 'Select a due date']"
+                  autocomplete="off"
                 ></v-text-field>
               </template>
               <v-date-picker v-model="date"></v-date-picker>
@@ -62,8 +55,7 @@
             depressed
             color="success"
             @click="onSubmit"
-            >Add</v-btn
-          >
+          >Add</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -97,7 +89,6 @@ export default {
             person: "theLivin",
             description: this.description,
             status: "ongoing",
-            id: 7,
             due: this.dueDate,
           };
           this.addNewProject(project);
@@ -107,7 +98,7 @@ export default {
           this.title = "";
           this.description = "";
           this.date = null;
-        }, 2000);
+        }, 1200);
       }
     },
   },
